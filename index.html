@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050b17" />
+  <meta name="description" content="Uma experiência cinematográfica 3D sobre o papel das leis da física na existência do universo e na tecnologia humana." />
+  <title>E se a física não existisse? — Uma experiência 3D</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js"}}</script>
+</head>
+<body>
+  <main id="app">
+    <canvas id="universe" aria-label="Animação tridimensional cinematográfica sobre a física"></canvas>
+    <div id="vignette" aria-hidden="true"></div>
+    <div id="grain" aria-hidden="true"></div>
+    <div id="flash" aria-hidden="true"></div>
+    <div id="transition" aria-hidden="true"></div>
+    <div class="film-bars" aria-hidden="true"><span></span><span></span></div>
+
+    <header class="topbar">
+      <a class="brand" href="#" id="brand" aria-label="Voltar ao início">
+        <span class="brand-mark">Φ</span>
+        <span>HIPÓTESE <small>DOCUMENTÁRIO INTERATIVO</small></span>
+      </a>
+      <div class="topbar-right"><span class="eyebrow">EPISÓDIO 001</span><span class="status-led"></span><span class="eyebrow">RENDER EM TEMPO REAL</span></div>
+    </header>
+
+    <section id="intro" class="intro" aria-labelledby="intro-title">
+      <p class="intro-kicker"><span class="line"></span> UMA EXPERIÊNCIA EM 3D SOBRE O IMPOSSÍVEL</p>
+      <h1 id="intro-title">E SE A<br /><em>FÍSICA</em><br />NÃO EXISTISSE<span class="question">?</span></h1>
+      <p class="intro-desc">E se as regras do universo desaparecessem? Ou pior: e se elas continuassem existindo, mas nós não soubéssemos usá-las? Uma jornada visual entre o impossível e a ciência que sustenta nossa civilização.</p>
+      <div class="intro-actions"><button id="start" class="button-primary"><span class="play-triangle"></span> INICIAR A EXPERIÊNCIA <span class="button-arrow">↗</span></button><span class="intro-duration" id="introDuration">~ 7 MIN · 10 CAPÍTULOS · ÁUDIO OPCIONAL</span></div>
+      <div class="intro-note">Modelos visuais didáticos. A ausência de leis físicas é uma hipótese conceitual, não um fenômeno simulável.</div>
+    </section>
+
+    <section id="story" class="story" aria-live="polite" hidden>
+      <div class="chapter-meta"><span id="chapter-number">CAPÍTULO 01 / 10</span><span class="meta-rule"></span><span id="chapter-kicker">UMA PERGUNTA IMPOSSÍVEL</span></div>
+      <div class="story-bottom">
+        <p class="story-tag" id="story-tag">01 / A PERGUNTA</p>
+        <h2 id="story-title">E se tudo parasse de fazer sentido?</h2>
+        <p id="story-description">Uma experiência de pensamento sobre as regras do universo.</p>
+      </div>
+      <div id="science-card" class="science-card" hidden>
+        <span class="science-label">POR TRÁS DA CENA <span class="science-dot">●</span></span>
+        <strong id="science-title">O que diz a ciência</strong>
+        <p id="science-text"></p>
+      </div>
+    </section>
+
+    <div id="subtitle" class="subtitle" hidden><span id="subtitle-text"></span></div>
+    <div class="side-rail" id="side-rail" hidden><span>CIÊNCIA É A ARTE DE COMPREENDER</span><i></i><span>01 — 10</span></div>
+
+    <footer id="controls" class="controls" hidden>
+      <div class="timeline-header"><span id="elapsed">00:00</span><span id="now-playing">A PERGUNTA</span><span id="remaining">07:26</span></div>
+      <div id="timeline" class="timeline" role="slider" aria-label="Posição do documentário" aria-valuemin="0" aria-valuemax="446" aria-valuenow="0" tabindex="0"><div id="timeline-fill" class="timeline-fill"></div><div id="timeline-markers" class="timeline-markers"></div><div id="timeline-head" class="timeline-head"></div></div>
+      <div class="transport">
+        <div class="transport-left">
+          <button class="icon-button" id="previous" title="Capítulo anterior" aria-label="Capítulo anterior"><svg viewBox="0 0 24 24"><path d="M5 5v14M19 5l-10 7 10 7V5Z"/></svg></button>
+          <button class="icon-button play-button" id="toggle" title="Pausar/reproduzir" aria-label="Pausar"><svg id="toggle-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+          <button class="icon-button" id="next" title="Próximo capítulo" aria-label="Próximo capítulo"><svg viewBox="0 0 24 24"><path d="M19 5v14M5 5l10 7-10 7V5Z"/></svg></button>
+          <span class="divider-vertical"></span>
+          <button class="text-button" id="chapters-open">☷ CAPÍTULOS</button>
+        </div>
+        <div class="transport-right">
+          <button class="text-button" id="speed" title="Velocidade">1×</button>
+          <button class="text-button active" id="captions" title="Mostrar/ocultar legendas">CC</button>
+          <button class="icon-button" id="narration" title="Ativar/desativar voz" aria-label="Narração ativada"><svg viewBox="0 0 24 24"><path d="M5 9v6h4l5 4V5L9 9H5Zm12-1a6 6 0 0 1 0 8m2-11a10 10 0 0 1 0 14"/></svg></button>
+          <button class="icon-button" id="sound" title="Ativar/desativar trilha sonora" aria-label="Trilha sonora ativada"><svg viewBox="0 0 24 24"><path d="M5 9v6h4l5 4V5L9 9H5Zm12-1a6 6 0 0 1 0 8"/></svg></button>
+          <button class="icon-button" id="record" title="Gravar animação em WebM (sem voz sintetizada)" aria-label="Gravar vídeo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></button>
+          <button class="icon-button" id="fullscreen" title="Tela cheia" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5M4 15v5h5m11-5v5h-5"/></svg></button>
+        </div>
+      </div>
+    </footer>
+
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-heading"><div><span class="eyebrow">NAVEGAR PELA HISTÓRIA</span><h3>Os capítulos</h3></div><button id="drawer-close" class="icon-button" aria-label="Fechar capítulos">✕</button></div>
+      <div id="chapter-list" class="chapter-list"></div>
+      <button class="drawer-reference" id="references-open">FONTES & NOTAS CIENTÍFICAS ↗</button>
+    </aside>
+    <div id="backdrop" class="backdrop" hidden></div>
+
+    <section class="finish" id="finish" hidden>
+      <p class="intro-kicker"><span class="line"></span> FIM DA EXPERIÊNCIA</p>
+      <h2>AS LEIS NÃO PRECISAM<br />DE NÓS. <em>NÓS PRECISAMOS<br />ENTENDÊ-LAS.</em></h2>
+      <p>O universo continuaria obedecendo às suas regularidades mesmo que ninguém as conhecesse. É o conhecimento científico que nos ajuda a transformar observações em previsões, tecnologias e vidas mais seguras.</p>
+      <div class="finish-actions"><button id="replay" class="button-primary"><span class="play-triangle"></span> ASSISTIR NOVAMENTE</button><button id="sources" class="outline-button">VER FONTES E LIMITES DA SIMULAÇÃO</button></div>
+    </section>
+
+    <dialog id="references" class="references">
+      <button id="references-close" class="icon-button reference-close" aria-label="Fechar">✕</button>
+      <span class="eyebrow">TRANSPARÊNCIA CIENTÍFICA</span><h2>Onde termina a metáfora e começa a ciência?</h2>
+      <p>Esta animação é uma experiência narrativa, não uma simulação quantitativa. “Sem leis físicas” é uma hipótese lógica extrema: sem regularidades fundamentais, não há modelo físico coerente que permita prever sequer a existência de matéria, luz e tempo.</p>
+      <p>Na segunda metade, as leis continuam existindo. O cenário considera a perda hipotética de conhecimento e métodos científicos: as dificuldades seriam tecnológicas, não o desaparecimento das forças naturais. As falhas mostradas são dramatizações de risco, não consequências inevitáveis.</p>
+      <h3>Fontes para explorar</h3>
+      <a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/what-is-lift/" target="_blank" rel="noopener">NASA — What is Lift?</a>
+      <a href="https://www.nist.gov/how-do-you-measure-it/how-does-mri-machine-work" target="_blank" rel="noopener">NIST — How Does an MRI Machine Work?</a>
+      <a href="https://spaceplace.nasa.gov/time-travel/en/" target="_blank" rel="noopener">NASA — Relatividade e relógios do GPS</a>
+      <a href="https://threejs.org/manual/#en/installation" target="_blank" rel="noopener">Three.js — engine 3D usado na animação</a>
+      <p class="references-foot">Produção autoral em Three.js. Todos os objetos e efeitos visuais são gerados por código, sem vídeos ou imagens externas. A voz depende da disponibilidade do mecanismo de fala do navegador. A gravação WebM inclui a trilha gerada internamente, mas não a voz do sistema.</p>
+    </dialog>
+
+    <div id="error" class="error" hidden><h2>Não foi possível iniciar o 3D.</h2><p id="error-message">Verifique se o navegador suporta WebGL e se há conexão com a internet para carregar o Three.js.</p></div>
+    <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
